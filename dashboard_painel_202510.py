@@ -1,4 +1,4 @@
-# CV Dashboard – Streamlit (Responsivo + Auto-Compact)
+# CV Dashboard – Streamlit (Responsivo + Auto-Compact + Título Externo)
 # Author: Murillo Martins
 # -------------------------------------------------
 # Como usar:
@@ -189,40 +189,57 @@ MUTE = "#94a3b8"
 ACCENT = PRIMARY
 
 def apply_grunge_theme(fig, title=None, compact=False):
-    title_size = 20 if compact else 24
+    """
+    Título interno não é usado. Os títulos serão externos (chart_heading).
+    No mobile (compact=True) a legenda desce para baixo e margens são ajustadas.
+    """
     tick_size = 9 if compact else 11
     legend_size = 9 if compact else 12
-    margins = dict(l=8, r=8, t=40, b=8) if compact else dict(l=12, r=12, t=50, b=12)
+
+    legend_cfg = dict(
+        bgcolor="rgba(0,0,0,0)",
+        bordercolor="rgba(255,255,255,0.10)",
+        borderwidth=0.5,
+        font=dict(size=legend_size, color=SLATE),
+        itemclick="toggleothers",
+        itemdoubleclick="toggle",
+    )
+    if compact:
+        legend_cfg.update(dict(orientation="h", x=0, y=-0.2, yanchor="top"))  # legenda embaixo
+        top_margin = 8
+        bottom_margin = 40
+    else:
+        legend_cfg.update(dict(orientation="h", x=0, y=1.02, yanchor="bottom"))  # legenda em cima
+        top_margin = 12
+        bottom_margin = 12
 
     fig.update_layout(
         template="plotly_dark",
         paper_bgcolor=GRAPHITE, plot_bgcolor=GRAPHITE,
-        font=dict(family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial", size=(11 if compact else 13), color=SLATE),
-        title=dict(text=title, x=0.5, xanchor="center",
-                   font=dict(family="Bebas Neue, Oswald, Impact, sans-serif", size=title_size, color=SLATE)) if title else None,
-        margin=margins,
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)", bordercolor="rgba(255,255,255,0.10)", borderwidth=0.5,
-            orientation="h", yanchor="bottom", y=1.06 if compact else 1.02, x=0,
-            font=dict(size=legend_size, color=SLATE), itemclick="toggleothers", itemdoubleclick="toggle"
-        ),
+        font=dict(family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial",
+                  size=(11 if compact else 13), color=SLATE),
+        margin=dict(l=8 if compact else 12, r=8 if compact else 12,
+                    t=top_margin, b=bottom_margin),
+        legend=legend_cfg,
         bargap=0.25,
         colorway=[ACCENT, "#60a5fa", "#f472b6", "#34d399", "#f59e0b", "#a78bfa", "#ef4444", "#22c55e"],
     )
     fig.update_xaxes(
+        automargin=True,
         gridcolor="rgba(255,255,255,0.06)", linecolor="rgba(255,255,255,0.12)",
         zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=tick_size),
-        title=dict(font=dict(color=MUTE, size=tick_size))
+        title=dict(font=dict(color=MUTE, size=tick_size)),
     )
     fig.update_yaxes(
+        automargin=True,
         gridcolor="rgba(255,255,255,0.06)", linecolor="rgba(255,255,255,0.12)",
         zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=tick_size),
-        title=dict(font=dict(color=MUTE, size=tick_size))
+        title=dict(font=dict(color=MUTE, size=tick_size)),
     )
     return fig
 
 # -----------------------------
-# CSS GLOBAL + PROJETOS + MÚSICA + PERFIL (Responsivo)
+# CSS GLOBAL (responsivo)
 # -----------------------------
 st.markdown(f"""
 <style>
@@ -251,7 +268,7 @@ div[role="tablist"] {{
 
 section.main > div {{ padding-top: .4rem; }}
 
-/* Títulos com clamp */
+/* Títulos do app (não dos gráficos) com clamp */
 h1, h2, h3 {{
   font-family: "Bebas Neue", "Oswald", Impact, system-ui, sans-serif !important;
   font-weight: 900 !important; letter-spacing: .5px; text-transform: uppercase;
@@ -395,15 +412,15 @@ def timeline_chart(df: pd.DataFrame, compact=False):
     )
     fig.update_yaxes(autorange="reversed", title=None)
     fig.update_xaxes(tickformat="%Y", dtick="M12", title=None, showgrid=True, automargin=True)
-    apply_grunge_theme(fig, "Linha do Tempo Profissional", compact=compact)
+    apply_grunge_theme(fig, compact=compact)
     fig.update_layout(height=(320 if compact else 420), autosize=True)
     return fig
 
-def radar_chart(skills: dict, title: str, compact=False):
+def radar_chart(skills: dict, compact=False):
     labels = list(skills.keys()) + [list(skills.keys())[0]]
     values = list(skills.values()) + [list(skills.values())[0]]
     fig = go.Figure([go.Scatterpolar(
-        r=values, theta=labels, fill="toself", name=title,
+        r=values, theta=labels, fill="toself",
         line=dict(color=ACCENT, width=3), marker=dict(size=6),
         fillcolor="rgba(34,211,238,0.18)"
     )])
@@ -418,16 +435,16 @@ def radar_chart(skills: dict, title: str, compact=False):
         ),
         showlegend=False,
     )
-    apply_grunge_theme(fig, title, compact=compact)
+    apply_grunge_theme(fig, compact=compact)
     fig.update_layout(height=(300 if compact else 380))
     return fig
 
-def bar_chart(skills: dict, title: str, compact=False):
+def bar_chart(skills: dict, compact=False):
     df = pd.DataFrame({"Skill": list(skills.keys()), "Nível": list(skills.values())})
     fig = px.bar(df, x="Nível", y="Skill", orientation="h", title=None)
     fig.update_traces(marker=dict(line=dict(width=0.5, color="rgba(255,255,255,0.18)")),
                       hovertemplate="<b>%{y}</b><br>Nível: %{x}<extra></extra>")
-    apply_grunge_theme(fig, title, compact=compact)
+    apply_grunge_theme(fig, compact=compact)
     fig.update_layout(height=(300 if compact else 380))
     return fig
 
@@ -497,8 +514,22 @@ def render_music_card(item: dict, inline_play_default=False):
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
+# COMPONENTE DE TÍTULO EXTERNO PARA GRÁFICOS
+# -----------------------------
+def chart_heading(text: str):
+    st.markdown(f"""
+    <div style="
+      font-family:'Bebas Neue','Oswald',Impact,system-ui,sans-serif;
+      font-weight:900; letter-spacing:.5px; text-transform:uppercase;
+      color:#cbd5e1; text-shadow:0 0 6px rgba(34,211,238,.15);
+      margin: 4px 0 8px 0;
+      font-size: clamp(18px, 5.5vw, 28px);
+    ">{text}</div>
+    """, unsafe_allow_html=True)
+
+# -----------------------------
 # AUTO-DETECÇÃO DO MODO COMPACTO (via viewport)
-# Se a tela < 700px: ativa ?compact=1; se > 900px: remove.
+# Se a tela < 768px: ativa ?compact=1; se > 992px: remove.
 # Usa sessionStorage para não entrar em loop.
 # -----------------------------
 components.html("""
@@ -511,9 +542,8 @@ components.html("""
     const qsVal = url.searchParams.get('compact');
     const key = 'compactApplied';
 
-    // thresholds
-    const shouldCompact = (w < 700);
-    const shouldDesktop = (w > 900);
+    const shouldCompact = (w < 768);
+    const shouldDesktop = (w > 992);
 
     if (shouldCompact && (!qsHas || (qsVal !== '1'))) {
       if (!sessionStorage.getItem(key)) {
@@ -528,7 +558,6 @@ components.html("""
         window.location.replace(url.toString());
       }
     } else {
-      // nada a fazer
       sessionStorage.removeItem(key);
     }
   } catch(e) { /* silencioso */ }
@@ -543,7 +572,6 @@ try:
     compact_qs = st.query_params.get("compact", None)
     IS_COMPACT = str(compact_qs).lower() in ("1", "true", "yes")
 except Exception:
-    # compatibilidade com versões anteriores do Streamlit
     IS_COMPACT = "compact" in st.experimental_get_query_params()
 
 with st.sidebar:
@@ -629,11 +657,11 @@ with aba_overview:
 </div>
 """, unsafe_allow_html=True)
     with right:
-        st.markdown("### Idiomas")
+        chart_heading("Proficiência de Idiomas")
         lang_df = pd.DataFrame({"Idioma": list(LANGUAGES.keys()), "Nível": list(LANGUAGES.values())})
         fig_lang = px.bar(lang_df, x="Idioma", y="Nível", title=None)
         fig_lang.update_traces(marker_line_width=0.6, marker_line_color="rgba(255,255,255,0.22)")
-        apply_grunge_theme(fig_lang, "Proficiência de Idiomas", compact=IS_COMPACT)
+        apply_grunge_theme(fig_lang, compact=IS_COMPACT)
         st.plotly_chart(fig_lang, use_container_width=True,
                         config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
@@ -645,6 +673,7 @@ with aba_timeline:
     df_show["Fim"] = df_show["Fim"].dt.strftime("%Y-%m")
     st.dataframe(df_show[["Empresa", "Cargo", "Cidade", "Início", "Fim"]],
                  use_container_width=True, hide_index=True, height=(260 if IS_COMPACT else 360))
+    chart_heading("Linha do Tempo Profissional")
     st.plotly_chart(timeline_chart(df_exp, compact=IS_COMPACT), use_container_width=True,
                     config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
@@ -652,11 +681,13 @@ with aba_skills:
     st.subheader("Habilidades Técnicas e de Negócio")
     c1, c2 = st.columns(2)
     with c1:
-        st.plotly_chart(radar_chart(SKILLS_CORE, "Competências Centrais", compact=IS_COMPACT),
+        chart_heading("Competências Centrais")
+        st.plotly_chart(radar_chart(SKILLS_CORE, compact=IS_COMPACT),
                         use_container_width=True,
                         config={"displayModeBar": False, "displaylogo": False, "responsive": True})
     with c2:
-        st.plotly_chart(bar_chart(SKILLS_TOOLS, "Ferramentas & Bibliotecas", compact=IS_COMPACT),
+        chart_heading("Ferramentas & Bibliotecas")
+        st.plotly_chart(bar_chart(SKILLS_TOOLS, compact=IS_COMPACT),
                         use_container_width=True,
                         config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
@@ -688,18 +719,21 @@ with aba_edu:
     fig_edu_bar = px.bar(counts, x="year", y="qtde", color="type",
                          barmode="stack", category_orders={"type": ["Graduação/Pós", "Certificação"]})
     fig_edu_bar.update_traces(marker_line_width=0.6, marker_line_color="rgba(255,255,255,0.18)")
-    apply_grunge_theme(fig_edu_bar, "Formações por Ano", compact=IS_COMPACT)
+    chart_heading("Formações por Ano")
+    apply_grunge_theme(fig_edu_bar, compact=IS_COMPACT)
     fig_edu_bar.update_layout(xaxis_title="Ano", yaxis_title="Quantidade", height=(300 if IS_COMPACT else 340))
+    fig_edu_bar.update_xaxes(tickangle=0)
     st.plotly_chart(fig_edu_bar, use_container_width=True,
                     config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
     fig_edu_tl = px.timeline(df, x_start="start", x_end="end", y="title",
                              color="type", hover_data={"org": True, "year": True, "type": True})
     fig_edu_tl.update_yaxes(autorange="reversed", title=None)
-    fig_edu_tl.update_xaxes(tickformat="%Y", title=None, dtick="M12")
+    fig_edu_tl.update_xaxes(tickformat="%Y", title=None, dtick="M12", tickangle=0)
     fig_edu_tl.update_traces(marker=dict(line=dict(color="rgba(255,255,255,0.14)", width=1)))
-    apply_grunge_theme(fig_edu_tl, "Linha do Tempo – Educação & Certificações", compact=IS_COMPACT)
-    fig_edu_tl.update_layout(height=(380 if IS_COMPACT else 460))
+    chart_heading("Linha do Tempo – Educação & Certificações")
+    apply_grunge_theme(fig_edu_tl, compact=IS_COMPACT)
+    fig_edu_tl.update_layout(height=(360 if IS_COMPACT else 460))
     st.plotly_chart(fig_edu_tl, use_container_width=True,
                     config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
