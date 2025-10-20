@@ -607,14 +607,40 @@ with st.sidebar:
 with st.sidebar:
     st.markdown("<div class='profile-card'>", unsafe_allow_html=True)
 
-    photo_path = Path(__file__).parent / "assets" / "profile.jpg"
-    if photo_path.exists():
-        st.image(Image.open(photo_path), use_container_width=True)
-    else:
+    # --- Caminhos possíveis + fallback para GitHub RAW ---
+    GITHUB_RAW_URL = (
+        "https://raw.githubusercontent.com/murillomartins101/painel_profissional/main/"
+        "painel_profissional/profile.jpg"
+    )
+
+    PHOTO_CANDIDATES = [
+        Path(__file__).parent / "assets" / "profile.jpg",
+        Path(__file__).parent / "painel_profissional" / "profile.jpg",
+        Path(__file__).parent / "profile.jpg",
+    ]
+
+    @st.cache_data(show_spinner=False)
+    def resolve_profile_photo() -> str:
+        """Retorna caminho local se existir; senão, URL RAW do GitHub."""
+        for p in PHOTO_CANDIDATES:
+            if p.exists():
+                return str(p)
+        return GITHUB_RAW_URL
+
+    # --- Usa a função para definir o caminho ---
+    photo_src = resolve_profile_photo()
+
+    # --- Exibe a imagem ou mensagem de erro ---
+    try:
+        if photo_src.startswith("http"):
+            st.image(photo_src, use_container_width=True)
+        else:
+            st.image(Image.open(photo_src), use_container_width=True)
+    except Exception as e:
         st.markdown(
             "<div style='height:180px;display:flex;align-items:center;justify-content:center;"
             "border-radius:12px;background:rgba(255,255,255,.05);color:#aaa;font-size:14px;'>"
-            "📸 Foto não encontrada</div>",
+            f"📸 Erro ao carregar imagem ({e})</div>",
             unsafe_allow_html=True
         )
 
@@ -673,9 +699,9 @@ with aba_overview:
         st.markdown("""
 <div class="card">
 <ul>
-<li><b>Análise de Dados + Marketing + Operações LATAM</b></li>
+<li><b>Análise de Dados e Estratégia Comercial</b></li>
 <li><b>Modelagem preditiva</b>, <b>dashboards executivos</b> e <b>crescimento data-driven</b></li>
-<li>Criatividade aplicada em <b>música</b> e <b>conteúdo</b> (YouTube)</li>
+<li>Criatividade aplicada em <b>música</b> e <b>conteúdo</b></li>
 </ul>
 </div>
 """, unsafe_allow_html=True)
