@@ -162,15 +162,38 @@ EDUCATION = [
 
 # Habilidades (0–100)
 SKILLS_CORE = {
-    "Comunicação": 100, "Marketing & Growth": 95, "Storytelling": 92,
-    "Análise de Dados": 90, "Power BI": 88, "Python": 90,
-    "SQL": 85, "Machine Learning": 60, "Estatística": 55,
+    # Estratégia e Comunicação
+    "Comunicação": 92,
+    "Storytelling": 90,
+    "Marketing & Growth": 88,
+    "Gestão de Projetos": 80,
+
+    # Dados e Análise
+    "Análise de Dados": 90,
+    "Power BI": 88,
+    "Python": 85,
+    "SQL": 75,
+
+    # Estatística e Modelagem
+    "Estatística": 70,
+    "Machine Learning": 68,
 }
+
 SKILLS_TOOLS = {
-    "Pandas": 90, "Scikit-learn": 82, "Plotly": 85, "Matplotlib": 80,
-    "Excel": 95, "DAX": 78, "M (Power Query)": 72,
-    "Google Analytics": 88, "YouTube Analytics": 80, "PowerPoint": 90,
+    # Bibliotecas Python
+    "Pandas": 90,
+    "Scikit-learn": 82,
+    "Plotly": 85,
+    "Matplotlib": 80,
+    "Streamlit": 75,
+
+    # Ecossistema Microsoft
+    "Excel": 95,
+    "DAX": 82,
+    "M (Power Query)": 78,
+    "PowerPoint": 88,
 }
+
 LANGUAGES = {"Português": 100, "Inglês": 85, "Espanhol": 70, "Alemão": 30}
 
 MUSIC = [
