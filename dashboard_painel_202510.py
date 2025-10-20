@@ -632,17 +632,19 @@ with st.sidebar:
 
     # --- Exibe a imagem ou mensagem de erro ---
     try:
-        if photo_src.startswith("http"):
-            st.image(photo_src, use_container_width=True)
-        else:
-            st.image(Image.open(photo_src), use_container_width=True)
-    except Exception as e:
-        st.markdown(
-            "<div style='height:180px;display:flex;align-items:center;justify-content:center;"
-            "border-radius:12px;background:rgba(255,255,255,.05);color:#aaa;font-size:14px;'>"
-            f"📸 Erro ao carregar imagem ({e})</div>",
-            unsafe_allow_html=True
-        )
+ if photo_src.startswith("http"):
+        # URL → pode usar use_container_width
+        st.image(photo_src, use_container_width=True)
+    else:
+        # Arquivo local → usa use_column_width
+        st.image(Image.open(photo_src), use_column_width=True)
+except Exception as e:
+    st.markdown(
+        "<div style='height:180px;display:flex;align-items:center;justify-content:center;"
+        "border-radius:12px;background:rgba(255,255,255,.05);color:#aaa;font-size:14px;'>"
+        f"📸 Erro ao carregar imagem ({e})</div>",
+        unsafe_allow_html=True
+    )
 
     st.markdown(f"<div class='profile-name'>{PROFILE['name']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='profile-headline'>{PROFILE['headline']}</div>", unsafe_allow_html=True)
