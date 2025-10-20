@@ -1,0 +1,6 @@
+PHOTO_CANDIDATES = [
+    Path("profile.jpg"),
+    Path("painel_profissional/profile.jpg"),
+    Path("assets/profile.jpg"),
+    Path(__file__).parent / "profile.jpg",
+]
