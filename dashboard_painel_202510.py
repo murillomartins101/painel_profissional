@@ -1,10 +1,10 @@
-# CV Dashboard – Streamlit (Responsivo)
+# CV Dashboard – Streamlit (Responsivo + Auto-Compact)
 # Author: Murillo Martins
 # -------------------------------------------------
 # Como usar:
 # 1) Salve como app.py
 # 2) (Opcional) venv: python -m venv .venv && .venv/Scripts/activate (Win) | source .venv/bin/activate (macOS/Linux)
-# 3) Rode: streamlit run "C:\Users\muril\OneDrive\01 - Projetos\07 - Streamlit\Dashboard Painel Profissional\dashboard_painel_202510.py"
+# 3) Rode: streamlit run app.py
 # -------------------------------------------------
 
 import streamlit as st
@@ -18,6 +18,7 @@ from pathlib import Path
 from PIL import Image
 import json
 import io
+import streamlit.components.v1 as components
 
 # -----------------------------
 # CONFIG GERAL
@@ -54,7 +55,7 @@ PROFILE = {
 EXPERIENCES = [
     {
         "company": "Honda Brasil",
-        "role": "Analista de Dados",
+        "role": "Cientista/Analista de Dados",
         "start": "2025-03",
         "end": None,
         "city": "São Paulo",
@@ -103,7 +104,7 @@ EXPERIENCES = [
     },
     {
         "company": "CNH Industrial Capital",
-        "role": "Consultor Comercial",
+        "role": "Field Representative",
         "start": "2011-09",
         "end": "2015-06",
         "city": "São Paulo",
@@ -116,7 +117,7 @@ EXPERIENCES = [
     },
     {
         "company": "Banco Mercedes-Benz",
-        "role": "Consultor Comercial",
+        "role": "Analista de F&I",
         "start": "2010-01",
         "end": "2011-09",
         "city": "São Paulo",
@@ -187,33 +188,36 @@ SLATE = "#cbd5e1"
 MUTE = "#94a3b8"
 ACCENT = PRIMARY
 
-def apply_grunge_theme(fig, title=None):
+def apply_grunge_theme(fig, title=None, compact=False):
+    title_size = 20 if compact else 24
+    tick_size = 9 if compact else 11
+    legend_size = 9 if compact else 12
+    margins = dict(l=8, r=8, t=40, b=8) if compact else dict(l=12, r=12, t=50, b=12)
+
     fig.update_layout(
         template="plotly_dark",
         paper_bgcolor=GRAPHITE, plot_bgcolor=GRAPHITE,
-        font=dict(family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial", size=13, color=SLATE),
-        title=dict(
-            text=title, x=0.5, xanchor="center",
-            font=dict(family="Bebas Neue, Oswald, Impact, sans-serif", size=24, color=SLATE)
-        ) if title else None,
-        margin=dict(l=12, r=12, t=50, b=12),
+        font=dict(family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial", size=(11 if compact else 13), color=SLATE),
+        title=dict(text=title, x=0.5, xanchor="center",
+                   font=dict(family="Bebas Neue, Oswald, Impact, sans-serif", size=title_size, color=SLATE)) if title else None,
+        margin=margins,
         legend=dict(
             bgcolor="rgba(0,0,0,0)", bordercolor="rgba(255,255,255,0.10)", borderwidth=0.5,
-            orientation="h", yanchor="bottom", y=1.02, x=0,
-            font=dict(size=12, color=SLATE), itemclick="toggleothers", itemdoubleclick="toggle"
+            orientation="h", yanchor="bottom", y=1.06 if compact else 1.02, x=0,
+            font=dict(size=legend_size, color=SLATE), itemclick="toggleothers", itemdoubleclick="toggle"
         ),
         bargap=0.25,
         colorway=[ACCENT, "#60a5fa", "#f472b6", "#34d399", "#f59e0b", "#a78bfa", "#ef4444", "#22c55e"],
     )
     fig.update_xaxes(
         gridcolor="rgba(255,255,255,0.06)", linecolor="rgba(255,255,255,0.12)",
-        zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=11),
-        title=dict(font=dict(color=MUTE, size=11))
+        zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=tick_size),
+        title=dict(font=dict(color=MUTE, size=tick_size))
     )
     fig.update_yaxes(
         gridcolor="rgba(255,255,255,0.06)", linecolor="rgba(255,255,255,0.12)",
-        zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=12),
-        title=dict(font=dict(color=MUTE, size=11))
+        zerolinecolor="rgba(255,255,255,0.10)", tickfont=dict(color=SLATE, size=tick_size),
+        title=dict(font=dict(color=MUTE, size=tick_size))
     )
     return fig
 
@@ -232,20 +236,30 @@ st.markdown(f"""
 html, body, [data-testid="stAppViewContainer"] {{
   background: linear-gradient(180deg, #0b0d11 0%, #0b0d11 40%, #0a0c10 100%), var(--texture);
   background-size: 3px 3px, 5px 5px;
+  overflow-x: hidden;
 }}
+/* Tabs pegajosas só em telas maiores */
 div[role="tablist"] {{
   position: sticky; top: 62px; z-index: 5; padding: 6px 0 0 0;
   background: linear-gradient(180deg, rgba(11,13,17,.95), rgba(11,13,17,.80));
   backdrop-filter: blur(2px);
   border-bottom: 1px solid rgba(255,255,255,.08);
 }}
+@media (max-width: 640px) {{
+  div[role="tablist"] {{ position: static; top: auto; }}
+}}
+
 section.main > div {{ padding-top: .4rem; }}
 
+/* Títulos com clamp */
 h1, h2, h3 {{
   font-family: "Bebas Neue", "Oswald", Impact, system-ui, sans-serif !important;
   font-weight: 900 !important; letter-spacing: .5px; text-transform: uppercase;
   color: {SLATE}; text-shadow: 0 0 6px rgba(34,211,238,.15);
 }}
+h1 {{ font-size: clamp(22px, 6vw, 40px); }}
+h2 {{ font-size: clamp(18px, 4.8vw, 32px); }}
+h3 {{ font-size: clamp(16px, 4.2vw, 26px); }}
 h1::after {{
   content:""; display:block; height:3px; margin-top:8px;
   background: linear-gradient(90deg, var(--accent), rgba(34,211,238,0));
@@ -275,7 +289,7 @@ h1::after {{
 
 /* Tabs */
 div[role="tab"] {{
-  font-size: 16px !important; font-weight: 800;
+  font-size: 15px !important; font-weight: 800;
   color: #93a3b8 !important; padding: 8px 8px 12px 8px; position: relative;
   text-transform: uppercase; letter-spacing:.6px;
 }}
@@ -294,20 +308,15 @@ div[role="tab"][aria-selected="true"]::after {{
   border-radius: 16px; border: 1px solid rgba(255,255,255,0.10);
   background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-  padding: 14px 16px; display:flex; flex-direction:column; gap:8px; min-height: 200px;
+  padding: 14px 16px; display:flex; flex-direction:column; gap:8px;
 }}
-.proj-title {{ font-family: "Bebas Neue","Oswald",Impact,sans-serif; font-size:22px; letter-spacing:.5px; margin:0; color:{SLATE}; }}
+.proj-title {{ font-family: "Bebas Neue","Oswald",Impact,sans-serif; font-size: clamp(18px, 4.4vw, 22px); letter-spacing:.5px; margin:0; color:{SLATE}; }}
 .proj-desc {{ color:{SLATE}; opacity:.9; margin: 0 0 6px 0; }}
 .proj-metrics {{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }}
 @media (max-width: 900px) {{ .proj-metrics {{ grid-template-columns:1fr; }} }}
 .proj-kpi {{ border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:10px 12px;
   background: radial-gradient(120% 100% at 0% 0%, rgba(34,211,238,0.08), rgba(34,211,238,0.02)); }}
-.proj-kpi small {{ font-size:11px; color:{MUTE}; }}
-.proj-kpi b {{ font-size:20px; color:{SLATE}; }}
-.proj-footer {{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px; flex-wrap:wrap; }}
-.proj-tags {{ color:{MUTE}; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
-.proj-link a {{ color:var(--accent) !important; text-decoration:none; }}
-.proj-link a:hover {{ text-decoration:underline; }}
+.proj-footer {{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }}
 
 /* Música */
 .music-grid{{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }}
@@ -317,38 +326,13 @@ div[role="tab"][aria-selected="true"]::after {{
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
   padding:12px 14px; display:flex; flex-direction:column; gap:10px;
 }}
-.music-title{{
-  min-width:0;
-  font-family:"Bebas Neue","Oswald",Impact,sans-serif; font-size:26px;
-  letter-spacing:.4px; color:#cbd5e1; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}}
-.music-thumb{{ display:block; width:30%; aspect-ratio:16/9;
+.music-title{{ min-width:0; font-family:"Bebas Neue","Oswald",Impact,sans-serif;
+  font-size: clamp(18px, 5.2vw, 28px); letter-spacing:.4px; color:#cbd5e1; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
+.music-thumb{{ display:block; width:100%; aspect-ratio:16/9;
   border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.10);
   background-position:center; background-size:cover; background-repeat:no-repeat;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
 }}
-.music-thumb:hover{{ border-color: rgba(34,211,238,.35); }}
-
-/* Sidebar • Perfil */
-.profile-card{{ border:1px solid rgba(255,255,255,.10); border-radius:16px; padding:14px;
-  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }}
-.profile-photo{{ position:relative; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.12); }}
-.profile-photo::after{{ content:""; position:absolute; inset:-1px; border-radius:14px; pointer-events:none;
-  box-shadow: 0 0 0 1px rgba(34,211,238,.20), 0 0 22px rgba(34,211,238,.08) inset; }}
-.profile-name{{ font-family:"Bebas Neue","Oswald",Impact,sans-serif; font-size:26px; letter-spacing:.6px; margin:6px 0 0 0; color:{SLATE}; }}
-.profile-headline{{ color:{SLATE}; opacity:.9; font-size:13px; line-height:1.35; margin-top:2px; }}
-.profile-sep{{ height:1px; margin:10px 0; background: linear-gradient(90deg, rgba(255,255,255,0.0), rgba(255,255,255,0.22), rgba(255,255,255,0.0)); border-radius:999px; }}
-.profile-section-title{{ display:flex; align-items:center; gap:8px; font-family:"Bebas Neue","Oswald",Impact,sans-serif; font-size:16px; letter-spacing:.5px; color:{SLATE}; margin:2px 0 2px 0; }}
-.profile-section-title .emoji{{ width:22px; height:22px; display:inline-grid; place-items:center; border-radius:8px;
-  background:rgba(34,211,238,.10); border:1px solid rgba(34,211,238,.25); box-shadow: inset 0 0 18px rgba(34,211,238,.06); }}
-.profile-meta{{ display:grid; gap:6px; margin-top:6px; }}
-.profile-meta div{{ font-size:13px; color:{SLATE}; opacity:.95; }}
-.profile-links{{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }}
-.profile-links a{{ font-size:12px; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.14);
-  background: radial-gradient(120% 100% at 0% 0%, rgba(34,211,238,0.08), rgba(34,211,238,0.02)); color:{SLATE}!important; text-decoration:none; }}
-.profile-links a:hover{{ border-color: rgba(34,211,238,.35); }}
-.profile-bio{{ margin-top:8px; font-size:13px; color:{SLATE}; opacity:.9; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -375,7 +359,7 @@ def _fmt_duration(rd: relativedelta) -> str:
     parts = ([] if not y else [f"{y}a"]) + ([] if not m else [f"{m}m"])
     return " ".join(parts) if parts else "0m"
 
-def timeline_chart(df: pd.DataFrame):
+def timeline_chart(df: pd.DataFrame, compact=False):
     df = df.copy()
     df["Duracao_str"] = df["Duração"].apply(_fmt_duration)
     df["Label"] = df["Cargo"] + " • " + df["Duracao_str"]
@@ -410,12 +394,12 @@ def timeline_chart(df: pd.DataFrame):
         ),
     )
     fig.update_yaxes(autorange="reversed", title=None)
-    fig.update_xaxes(tickformat="%Y", dtick="M12", title=None, showgrid=True)
-    apply_grunge_theme(fig, "Linha do Tempo Profissional")
-    fig.update_layout(height=420)
+    fig.update_xaxes(tickformat="%Y", dtick="M12", title=None, showgrid=True, automargin=True)
+    apply_grunge_theme(fig, "Linha do Tempo Profissional", compact=compact)
+    fig.update_layout(height=(320 if compact else 420), autosize=True)
     return fig
 
-def radar_chart(skills: dict, title: str):
+def radar_chart(skills: dict, title: str, compact=False):
     labels = list(skills.keys()) + [list(skills.keys())[0]]
     values = list(skills.values()) + [list(skills.values())[0]]
     fig = go.Figure([go.Scatterpolar(
@@ -426,23 +410,25 @@ def radar_chart(skills: dict, title: str):
     fig.update_layout(
         polar=dict(
             bgcolor=GRAPHITE,
-            angularaxis=dict(tickfont=dict(size=12, color=SLATE), linecolor="rgba(255,255,255,0.15)", linewidth=1),
-            radialaxis=dict(visible=True, range=[0, 100], tickfont=dict(size=11, color=SLATE),
+            angularaxis=dict(tickfont=dict(size=(10 if compact else 12), color=SLATE),
+                             linecolor="rgba(255,255,255,0.15)", linewidth=1),
+            radialaxis=dict(visible=True, range=[0, 100],
+                            tickfont=dict(size=(9 if compact else 11), color=SLATE),
                             gridcolor="rgba(255,255,255,0.08)", linecolor="rgba(255,255,255,0.15)", linewidth=1),
         ),
         showlegend=False,
     )
-    apply_grunge_theme(fig, title)
-    fig.update_layout(height=380)
+    apply_grunge_theme(fig, title, compact=compact)
+    fig.update_layout(height=(300 if compact else 380))
     return fig
 
-def bar_chart(skills: dict, title: str):
+def bar_chart(skills: dict, title: str, compact=False):
     df = pd.DataFrame({"Skill": list(skills.keys()), "Nível": list(skills.values())})
     fig = px.bar(df, x="Nível", y="Skill", orientation="h", title=None)
     fig.update_traces(marker=dict(line=dict(width=0.5, color="rgba(255,255,255,0.18)")),
                       hovertemplate="<b>%{y}</b><br>Nível: %{x}<extra></extra>")
-    apply_grunge_theme(fig, title)
-    fig.update_layout(height=380)
+    apply_grunge_theme(fig, title, compact=compact)
+    fig.update_layout(height=(300 if compact else 380))
     return fig
 
 def kpi_badge(label: str, value: str):
@@ -473,7 +459,7 @@ def youtube_id_from_url(url: str):
     try:
         u = urlparse(url)
         if u.netloc in ("youtu.be", "www.youtu.be"):
-            return u.path.lstrip("/")
+            return u.path.strip("/")
         if "youtube.com" in u.netloc:
             qs = parse_qs(u.query)
             if "v" in qs: return qs["v"][0]
@@ -511,7 +497,61 @@ def render_music_card(item: dict, inline_play_default=False):
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
-# SIDEBAR (perfil, sem duplicações)
+# AUTO-DETECÇÃO DO MODO COMPACTO (via viewport)
+# Se a tela < 700px: ativa ?compact=1; se > 900px: remove.
+# Usa sessionStorage para não entrar em loop.
+# -----------------------------
+components.html("""
+<script>
+(function() {
+  try {
+    const w = window.innerWidth || document.documentElement.clientWidth;
+    const url = new URL(window.location.href);
+    const qsHas = url.searchParams.has('compact');
+    const qsVal = url.searchParams.get('compact');
+    const key = 'compactApplied';
+
+    // thresholds
+    const shouldCompact = (w < 700);
+    const shouldDesktop = (w > 900);
+
+    if (shouldCompact && (!qsHas || (qsVal !== '1'))) {
+      if (!sessionStorage.getItem(key)) {
+        url.searchParams.set('compact','1');
+        sessionStorage.setItem(key, '1');
+        window.location.replace(url.toString());
+      }
+    } else if (shouldDesktop && qsHas && (qsVal === '1')) {
+      if (!sessionStorage.getItem(key)) {
+        url.searchParams.delete('compact');
+        sessionStorage.setItem(key, '1');
+        window.location.replace(url.toString());
+      }
+    } else {
+      // nada a fazer
+      sessionStorage.removeItem(key);
+    }
+  } catch(e) { /* silencioso */ }
+})();
+</script>
+""", height=0)
+
+# -----------------------------
+# MODO COMPACTO (query string + toggle)
+# -----------------------------
+try:
+    compact_qs = st.query_params.get("compact", None)
+    IS_COMPACT = str(compact_qs).lower() in ("1", "true", "yes")
+except Exception:
+    # compatibilidade com versões anteriores do Streamlit
+    IS_COMPACT = "compact" in st.experimental_get_query_params()
+
+with st.sidebar:
+    IS_COMPACT = st.toggle("📱 Modo compacto (mobile)", value=IS_COMPACT,
+                           help="Reduz alturas/ fontes para telas pequenas")
+
+# -----------------------------
+# SIDEBAR (perfil)
 # -----------------------------
 with st.sidebar:
     st.markdown("<div class='profile-card'>", unsafe_allow_html=True)
@@ -555,7 +595,7 @@ st.markdown("<div class='kpi-grid'>", unsafe_allow_html=True)
 c1, c2, c3, c4 = st.columns(4)
 with c1:
     if EXPERIENCES:
-        first_start = ym_to_date(EXPERIENCES[-1]["start"])  # earliest na lista
+        first_start = datetime.strptime(EXPERIENCES[-1]["start"] + "-01", "%Y-%m-%d")
         total_years = relativedelta(datetime.today(), first_start)
         kpi_badge("Experiência total", f"{total_years.years}a {total_years.months}m")
 with c2:
@@ -593,8 +633,9 @@ with aba_overview:
         lang_df = pd.DataFrame({"Idioma": list(LANGUAGES.keys()), "Nível": list(LANGUAGES.values())})
         fig_lang = px.bar(lang_df, x="Idioma", y="Nível", title=None)
         fig_lang.update_traces(marker_line_width=0.6, marker_line_color="rgba(255,255,255,0.22)")
-        apply_grunge_theme(fig_lang, "Proficiência de Idiomas")
-        st.plotly_chart(fig_lang, use_container_width=True)
+        apply_grunge_theme(fig_lang, "Proficiência de Idiomas", compact=IS_COMPACT)
+        st.plotly_chart(fig_lang, use_container_width=True,
+                        config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
 with aba_timeline:
     st.subheader("Experiência Profissional")
@@ -602,16 +643,22 @@ with aba_timeline:
     df_show = df_exp.copy()
     df_show["Início"] = df_show["Início"].dt.strftime("%Y-%m")
     df_show["Fim"] = df_show["Fim"].dt.strftime("%Y-%m")
-    st.dataframe(df_show[["Empresa", "Cargo", "Cidade", "Início", "Fim"]], use_container_width=True, hide_index=True)
-    st.plotly_chart(timeline_chart(df_exp), use_container_width=True)
+    st.dataframe(df_show[["Empresa", "Cargo", "Cidade", "Início", "Fim"]],
+                 use_container_width=True, hide_index=True, height=(260 if IS_COMPACT else 360))
+    st.plotly_chart(timeline_chart(df_exp, compact=IS_COMPACT), use_container_width=True,
+                    config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
 with aba_skills:
     st.subheader("Habilidades Técnicas e de Negócio")
     c1, c2 = st.columns(2)
     with c1:
-        st.plotly_chart(radar_chart(SKILLS_CORE, "Competências Centrais"), use_container_width=True)
+        st.plotly_chart(radar_chart(SKILLS_CORE, "Competências Centrais", compact=IS_COMPACT),
+                        use_container_width=True,
+                        config={"displayModeBar": False, "displaylogo": False, "responsive": True})
     with c2:
-        st.plotly_chart(bar_chart(SKILLS_TOOLS, "Ferramentas & Bibliotecas"), use_container_width=True)
+        st.plotly_chart(bar_chart(SKILLS_TOOLS, "Ferramentas & Bibliotecas", compact=IS_COMPACT),
+                        use_container_width=True,
+                        config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
 with aba_projects:
     st.subheader("Projetos em Destaque")
@@ -621,7 +668,7 @@ with aba_projects:
 with aba_edu:
     st.subheader("Educação & Certificações")
     edu_df = pd.DataFrame(EDUCATION)
-    st.dataframe(edu_df, use_container_width=True, hide_index=True)
+    st.dataframe(edu_df, use_container_width=True, hide_index=True, height=(240 if IS_COMPACT else 320))
 
     df = edu_df.copy()
 
@@ -641,18 +688,20 @@ with aba_edu:
     fig_edu_bar = px.bar(counts, x="year", y="qtde", color="type",
                          barmode="stack", category_orders={"type": ["Graduação/Pós", "Certificação"]})
     fig_edu_bar.update_traces(marker_line_width=0.6, marker_line_color="rgba(255,255,255,0.18)")
-    apply_grunge_theme(fig_edu_bar, "Formações por Ano")
-    fig_edu_bar.update_layout(xaxis_title="Ano", yaxis_title="Quantidade", height=340)
-    st.plotly_chart(fig_edu_bar, use_container_width=True)
+    apply_grunge_theme(fig_edu_bar, "Formações por Ano", compact=IS_COMPACT)
+    fig_edu_bar.update_layout(xaxis_title="Ano", yaxis_title="Quantidade", height=(300 if IS_COMPACT else 340))
+    st.plotly_chart(fig_edu_bar, use_container_width=True,
+                    config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
     fig_edu_tl = px.timeline(df, x_start="start", x_end="end", y="title",
                              color="type", hover_data={"org": True, "year": True, "type": True})
     fig_edu_tl.update_yaxes(autorange="reversed", title=None)
     fig_edu_tl.update_xaxes(tickformat="%Y", title=None, dtick="M12")
     fig_edu_tl.update_traces(marker=dict(line=dict(color="rgba(255,255,255,0.14)", width=1)))
-    apply_grunge_theme(fig_edu_tl, "Linha do Tempo – Educação & Certificações")
-    fig_edu_tl.update_layout(height=460)
-    st.plotly_chart(fig_edu_tl, use_container_width=True)
+    apply_grunge_theme(fig_edu_tl, "Linha do Tempo – Educação & Certificações", compact=IS_COMPACT)
+    fig_edu_tl.update_layout(height=(380 if IS_COMPACT else 460))
+    st.plotly_chart(fig_edu_tl, use_container_width=True,
+                    config={"displayModeBar": False, "displaylogo": False, "responsive": True})
 
 with aba_music:
     st.subheader("Música & Vídeos")
