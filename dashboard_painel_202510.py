@@ -1,12 +1,3 @@
-# CV Dashboard – Streamlit (Responsivo + Auto-Compact + Título Externo)
-# Author: Murillo Martins
-# -------------------------------------------------
-# Como usar:
-# 1) Salve como app.py
-# 2) (Opcional) venv: python -m venv .venv && .venv/Scripts/activate (Win) | source .venv/bin/activate (macOS/Linux)
-# 3) Rode: streamlit run app.py
-# -------------------------------------------------
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
