@@ -233,21 +233,22 @@ PROFILE = {
     "site": "https://www.murillomartins.com.br",
     "linkedin": "https://www.linkedin.com/in/murillomartins101",
     "github": "https://github.com/murillomartins101",
-    "instagram": "https://www.instagram.com/murillomartinsdrums",
+    "instagram": "https://www.instagram.com/murillomartins101",
     "bio": "Analista de Dados com mais de 15 anos de experiência em marketing, inteligência comercial e estratégia. Especialista em transformar dados complexos em insights acionáveis através de Python, SQL, Power BI e Machine Learning."
 }
 
 EXPERIENCES = [
     {
         "company": "Honda Brasil",
-        "role": "Cientista/Analista de Dados",
+        "role": "Analista de Dados",
         "start": "2025-03",
         "end": None,
         "city": "São Paulo",
         "achievements": [
             "Dataviz para análise de produtividade e performance",
-            "Dashboards executivos de carteira e inadimplência",
+            "Criação e Manutenção de Dashboards executivos em Power BI",
             "Estratégias orientadas a dados para crescimento"
+            "Desenvolvimento de materiais e treinamento das áreas de negócio para adoção de cultura data-driven"
         ],
         "skills": ["Python", "SQL", "Power BI", "ML"]
     },
@@ -360,17 +361,15 @@ EDUCATION = [
 ]
 
 SKILLS_CORE = {
-    "Comunicação": 92,
-    "Storytelling": 90,
-    "Marketing & Growth": 88,
-    "Gestão de Projetos": 80,
-    "Análise de Dados": 88,
-    "Power BI": 85,
-    "Python": 87,
-    "SQL": 60,
-    "R": 45,
-    "Estatística": 82,
-    "Machine Learning": 70
+    "Business Strategy & Growth": 94,
+    "Data Storytelling & Comunicação": 92,
+    "Python (Pandas, Scikit-learn, Plotly)": 87,
+    "Power BI & Data Visualization": 85,
+    "Estatística Aplicada": 70,
+    "Machine Learning": 75,
+    "SQL & Databricks": 70,
+    "Project Management (Agile & Cross-functional)": 80,
+    "Marketing Analytics": 88
 }
 
 SKILLS_TOOLS = {
@@ -984,11 +983,11 @@ with tab3:
     st.markdown("### Habilidades Comportamentais")
     
     soft_skills = {
-        "Comunicação": 92,
-        "Liderança": 85,
-        "Trabalho em Equipe": 88,
+        "Comunicação": 90,
+        "Liderança": 80,
+        "Trabalho em Equipe": 95,
         "Resolução de Problemas": 90,
-        "Adaptabilidade": 87
+        "Adaptabilidade": 92
     }
     
     col1, col2 = st.columns([1, 2])
