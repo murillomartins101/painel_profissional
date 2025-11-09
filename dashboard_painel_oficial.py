@@ -247,8 +247,10 @@ EXPERIENCES = [
         "achievements": [
             "Dataviz para análise de produtividade e performance",
             "Criação e Manutenção de Dashboards executivos em Power BI",
-            "Estratégias orientadas a dados para crescimento"
-            "Desenvolvimento de materiais e treinamento das áreas de negócio para adoção de cultura data-driven"
+            "Estratégias orientadas a dados para crescimento",
+            "Desenvolvimento de materiais e treinamento das áreas de negócio para adoção de cultura data-driven",
+            "Automatização de relatórios e processos com Python e SQL",
+            "Trabalho com equipes cross-functional para implementação de soluções analíticas"
         ],
         "skills": ["Python", "SQL", "Power BI", "ML"]
     },
@@ -260,7 +262,10 @@ EXPERIENCES = [
         "city": "São Paulo / LATAM",
         "achievements": [
             "Gestão de distribuidores (Ecuador, Colômbia, Panamá, Suriname, Venezuela)",
-            "Planejamento comercial, pricing e expansão de portfólio"
+            "Planejamento comercial, budget, marketing, vendas e expansão de portfólio",
+            "Análise de performance e inteligência de mercado na região LATAM",
+            "Coordenação de projetos cross-functional com equipes globais",
+            "Liderança de iniciativas de pricing e estratégias de entrada em novos mercados"
         ],
         "skills": ["Comercial", "Planejamento", "Pricing", "LATAM"]
     },
@@ -271,10 +276,13 @@ EXPERIENCES = [
         "end": "2023-03",
         "city": "São Paulo",
         "achievements": [
-            "Gestão de Concessionárias 4 rodas e 2 rodas (Brasil)",
-            "Marketing, Produtos Financeiros, Vendas, Planejamento comercial"
+            "Gestão de negócios em Concessionárias 4 rodas e 2 rodas (Brasil)",
+            "Marketing, Produtos Financeiros, Vendas, Planejamento comercial",
+            "Análise de performance e KPIs comerciais",
+            "Desenvolvimento de campanhas de marketing e vendas orientadas a dados",
+            "Liderança de projetos de melhoria contínua e otimização de processos"
         ],
-        "skills": ["Marketing", "Comercial", "Planejamento", "Pricing"]
+        "skills": ["Serviços Financeiros", "Marketing", "Comercial", "Planejamento", "Pricing"]
     },
     {
         "company": "Aditivo Media",
@@ -284,9 +292,13 @@ EXPERIENCES = [
         "city": "São Paulo",
         "achievements": [
             "Mais de 100k visitas orgânicas em projetos de clientes",
-            "Campanhas de performance e conteúdos data-driven"
+            "Campanhas de performance e conteúdos data-driven",
+            "Estratégias de crescimento e marketing digital",
+            "Produção de conteúdo, SEO, Social Media e Paid Media",
+            "Consultoria para startups e PMEs em marketing digital e growth",
+            "Análise de dados para otimização de campanhas e estratégias"
         ],
-        "skills": ["Marketing", "Growth", "SEO", "Paid Media", "Branding"]
+        "skills": ["Marketing", "Digital Strategy", "Growth", "SEO", "Branding"]
     },
     {
         "company": "CNH Industrial Capital",
@@ -294,7 +306,12 @@ EXPERIENCES = [
         "start": "2011-09",
         "end": "2015-06",
         "city": "São Paulo",
-        "achievements": ["Forecast de vendas e inteligência de mercado"],
+        "achievements": [
+            "Forecast de vendas e inteligência de mercado",
+            "Análise de performance e KPIs comerciais",
+            "Financiamento de máquinas agrícolas e comerciais - Iveco, Case e New Holland",
+            "Desenvolvimento de dashboards e relatórios gerenciais"
+            ],
         "skills": ["Serviços Financeiros", "BNDES", "Forecast", "BI"]
     },
     {
@@ -303,25 +320,35 @@ EXPERIENCES = [
         "start": "2010-01",
         "end": "2011-09",
         "city": "São Paulo",
-        "achievements": ["Campanhas de aquisição e retenção"],
-        "skills": ["Marketing", "Analytics", "CRM", "Serviços Financeiros"]
+        "achievements": [
+            "Forecast de vendas e inteligência de mercado",
+            "Análise de performance e KPIs comerciais",
+            "Financiamento de ônibus e caminhões - Mercedes-Benz",
+            "Análise de empresas para crédito e financiamento"
+            ],
+        "skills": ["Serviços Financeiros", "BNDES", "Marketing", "Analytics", "CRM"]
     }
 ]
 
 PROJECTS = [
-    {
-        "title": "Análise de Turnover – (case educacional)",
-        "summary": "Pipeline de ML para prever evasão e priorizar retenção.",
-        "metrics": {"AUC": 0.87, "Lift@10%": 3.2},
-        "tags": ["Python", "Scikit-learn", "EDA", "Feature Eng."],
-        "link": "https://github.com/murillomartins101"
+    { 
+    "title": "Análise de Turnover – Case RH (XGBoost com PyCaret)",
+    "summary": "Estudo completo de EDA e Machine Learning aplicado à retenção de talentos. O projeto envolveu tratamento de dados, engenharia de variáveis e treinamento com XGBoost via PyCaret para prever risco de desligamento e apoiar decisões estratégicas do RH.",
+    "metrics": {"Accuracy": 0.87, "AUC": 0.81, "Recall": 0.86, "Lift@10%": 2.8},
+    "tags": ["Python", "PyCaret", "XGBoost", "EDA", "Feature Engineering", "SHAP", "Data Storytelling"],
+    "link": "https://github.com/murillomartins101"
     },
     {
-        "title": "Churn Prediction – Waze App (case educacional)",
-        "summary": "Pipeline de ML para prever evasão e priorizar retenção.",
-        "metrics": {"AUC": 0.87, "Lift@10%": 3.2},
-        "tags": ["Python", "Scikit-learn", "EDA", "Feature Eng."],
-        "link": "https://github.com/murillomartins101"
+        "title": "Churn Prediction – Waze App (educational case)",
+        "summary": "Análise exploratória e pipeline de machine learning usando Random Forest e XGBoost para prever churn de usuários e identificar fatores de retenção no app Waze.",
+        "metrics": {
+        "Accuracy": 0.81,
+        "Precision": 0.44,
+        "Recall": 0.18,
+        "F1": 0.24
+    },
+    "tags": ["Python", "Scikit-learn", "XGBoost", "EDA", "Machine Learning", "Classification"],
+    "link": "https://github.com/murillomartins101"
     },
     {
         "title": "Murillo Martins – Carreira como Baterista Profissional",
@@ -331,21 +358,21 @@ PROJECTS = [
             "Shows_realizados": "300+",
             "Projetos_ativos": 3
         },
-        "tags": ["Baterista", "Performance", "Analytics", "Produção Musical"],
-        "link": "https://www.instagram.com/murillomartinsdrums/"
+    "tags": ["Baterista", "Performance", "Analytics", "Produção Artística", "Marketing Digital", "Educador"],
+        "link": "https://www.murillomartins.com.br/"
     },
     {
         "title": "Machinage – Conteúdo, Growth & Produção Musical",
-        "summary": "Retomada da banda após 8 anos de hiato. Atuação como baterista, produtor e estrategista de marketing.",
+        "summary": "Retomada da banda após 8 anos de hiato. Atuação como baterista, produtor artístico e estrategista de marketing digital.",
         "metrics": {"Status": "Em andamento"},
-        "tags": ["Baterista", "Produção Musical", "Social Media", "Marketing"],
+        "tags": ["Baterista", "Estratégia Digital", "Marketing", "Growth", "Analytics", "YouTube"],
         "link": "https://www.instagram.com/machinageband/"
     },
     {
         "title": "RockBuzz – Conteúdo, Growth & Performance",
         "summary": "Criação e consolidação da banda como projeto de entretenimento ao vivo.",
         "metrics": {"Views": "250k+", "CTR": "6.5%"},
-        "tags": ["Baterista", "Social Media", "SEO", "Analytics", "YouTube"],
+        "tags": ["Baterista", "Estratégia Digital", "Marketing", "Growth", "Analytics", "YouTube"],
         "link": "https://www.bandarockbuzz.com.br/"
     }
 ]
@@ -823,8 +850,8 @@ with tab1:
             <div style="margin-top: 1.5rem; padding: 1.5rem; background: {ACCENT_BG}; border-radius: 8px; border-left: 4px solid {PRIMARY};">
                 <h4 style="color: {PRIMARY}; margin-bottom: 1rem;">🎯 Foco Atual</h4>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                    <span class="data-badge">Python Avançado</span>
-                    <span class="data-badge secondary">Power BI Expert</span>
+                    <span class="data-badge">Python</span>
+                    <span class="data-badge secondary">Power BI</span>
                     <span class="data-badge">SQL</span>
                     <span class="data-badge accent">Machine Learning</span>
                     <span class="data-badge">Data Storytelling</span>
@@ -913,7 +940,7 @@ with tab2:
             <h4 style="color: {ACCENT};">🔄 Versatilidade</h4>
             <p style="font-size: 14px; color: {TEXT}; line-height: 1.6;">
                 Experiência diversificada em setores: financeiro, automotivo, 
-                marketing digital e tecnologia.
+                marketing digital, tecnologia e music business
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -1047,10 +1074,10 @@ with tab4:
     st.markdown("### Áreas de Atuação")
     
     areas = {
-        "Data Science": ["Python", "Machine Learning", "Estatística", "Feature Engineering"],
-        "Business Intelligence": ["Power BI", "SQL", "Dashboards", "KPIs"],
+        "Análise de Dados": ["Python", "Databricks", "AWS", "SQL", "Power BI", "Estatística"],
+        "Business Intelligence": ["Power BI", "Dashboards", "KPIs"],
         "Marketing Analytics": ["Growth", "SEO", "Paid Media", "CRM"],
-        "Música & Performance": ["Baterista Profissional", "Produção Musical", "Social Media"]
+        "Música & Performance": ["Baterista Profissional", "Produção Artística", "Estratégia de Marketing"]
     }
     
     cols = st.columns(2)
@@ -1123,7 +1150,7 @@ st.markdown("---")
 st.markdown(f"""
 <div style="text-align: center; color: {TEXT_LIGHT}; font-size: 14px; padding: 2rem 0;">
     <strong style="color: {TEXT}; font-size: 1.1rem;">{PROFILE['name']}</strong><br>
-    <p style="margin: 1rem 0; font-size: 0.95rem;">Transformando dados em insights acionáveis</p>
+    <p style="margin: 1rem 0; font-size: 0.95rem;">Data Analyst | Data Science | Marketing | Analytics</p>  
     <p style="margin: 0.5rem 0;">📍 {PROFILE['location']} • ✉️ {PROFILE['email']}</p>
     <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
         <a href="{PROFILE['linkedin']}" style="color: {PRIMARY}; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
@@ -1144,3 +1171,4 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
