@@ -1,11 +1,3 @@
-# CV Dashboard – Streamlit (Responsivo + Auto-Compact + Dados Dinâmicos)
-# Author: Murillo Martins
-# -------------------------------------------------
-# Como usar:
-# 1) Salve como app.py
-# 2) Rode: streamlit run app.py
-# -------------------------------------------------
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -1094,4 +1086,5 @@ with aba_music:
                         ▶️ Assistir no YouTube
                     </a>
                 </div>
+
                 """, unsafe_allow_html=True)
