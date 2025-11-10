@@ -234,7 +234,7 @@ PROFILE = {
     "linkedin": "https://www.linkedin.com/in/murillomartins101",
     "github": "https://github.com/murillomartins101",
     "instagram": "https://www.instagram.com/murillomartins101",
-    "bio": "Analista de Dados com mais de 15 anos de experiência em marketing, inteligência comercial e estratégia. Especialista em transformar dados complexos em insights acionáveis através de Python, SQL, Power BI e Machine Learning."
+    "bio": "Com mais de 15 anos de experiência em marketing, estratégias e desenvolvimento de negócios, atuei em empresas renomadas como Mercedes Benz Bank, Iveco, Case, New Holland e Honda. Essa vivência consolidou minha perspectiva global e expertise em conduzir operações em ambientes multiculturais, sempre buscando resultados estratégicos e sustentáveis."
 }
 
 EXPERIENCES = [
@@ -1171,4 +1171,5 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
