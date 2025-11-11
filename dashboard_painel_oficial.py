@@ -339,7 +339,7 @@ PROJECTS = [
     "link": "https://github.com/murillomartins101"
     },
     {
-        "title": "Churn Prediction – Waze App (educational case)",
+        "title": "Churn Prediction – Waze App",
         "summary": "Análise exploratória e pipeline de machine learning usando Random Forest e XGBoost para prever churn de usuários e identificar fatores de retenção no app Waze.",
         "metrics": {
         "Accuracy": 0.81,
@@ -356,6 +356,9 @@ PROJECTS = [
         "metrics": {
             "Anos_experiência": 20,
             "Shows_realizados": "300+",
+            "Países": "10+",
+            "Views_Youtube": "125k+",
+            "Watch_time": "4.1K+",
             "Projetos_ativos": 3
         },
     "tags": ["Baterista", "Performance", "Analytics", "Produção Artística", "Marketing Digital", "Educador"],
@@ -367,6 +370,13 @@ PROJECTS = [
         "metrics": {"Status": "Em andamento"},
         "tags": ["Baterista", "Estratégia Digital", "Marketing", "Growth", "Analytics", "YouTube"],
         "link": "https://www.instagram.com/machinageband/"
+    },
+    {
+        "title": "RockBuzz – Calculadora de Cachê & Gerador de Contratos",
+        "summary": "Sistema que substitui planilhas manuais por uma plataforma automatizada, reduzindo drasticamente o tempo de envio de propostas e aumentando a taxa de fechamento de contratos. Todos os integrantes podem acessar mobile e gerenciar orçamentos, contratos e históricos de forma rápida e eficiente.",
+        "metrics": {
+        "Taxa de Aceite": "100% (antes 20%)",
+        "Tempo Médio de Geração": "03 min (antes ~05 horas)",
     },
     {
         "title": "RockBuzz – Conteúdo, Growth & Performance",
@@ -1171,5 +1181,6 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
