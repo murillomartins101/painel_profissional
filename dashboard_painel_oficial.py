@@ -234,7 +234,7 @@ PROFILE = {
     "linkedin": "https://www.linkedin.com/in/murillomartins101",
     "github": "https://github.com/murillomartins101",
     "instagram": "https://www.instagram.com/murillomartins101",
-    "bio": "Com mais de 15 anos de experiência em marketing, estratégias e desenvolvimento de negócios, atuei em empresas renomadas como Mercedes Benz Bank, Iveco, Case, New Holland e Honda. Essa vivência consolidou minha perspectiva global e expertise em conduzir operações em ambientes multiculturais, sempre buscando resultados estratégicos e sustentáveis."
+    "bio": "Analista de Dados com mais de 15 anos de experiência em marketing, inteligência comercial e estratégia. Especialista em transformar dados complexos em insights acionáveis através de Python, SQL, Power BI e Machine Learning."
 }
 
 EXPERIENCES = [
@@ -377,6 +377,9 @@ PROJECTS = [
         "metrics": {
         "Taxa de Aceite": "100% (antes 20%)",
         "Tempo Médio de Geração": "03 min (antes ~05 horas)",
+  },
+  "tags": ["Música ao vivo", "Automação", "Contratos", "Orçamentos", "Aditivo Media"],
+  "link": "https://www.bandarockbuzz.com.br/"
     },
     {
         "title": "RockBuzz – Conteúdo, Growth & Performance",
