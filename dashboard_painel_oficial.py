@@ -372,6 +372,21 @@ PROJECTS = [
         "link": "https://www.instagram.com/machinageband/"
     },
     {
+    "title": "RockBuzz – Business Finance (Backstage)",
+    "summary": """**Sistema financeiro completo da banda RockBuzz**, desenvolvido em **Streamlit** e integrado ao **Google Sheets**:
+
+    - Substitui planilhas manuais por uma plataforma automatizada que centraliza lançamentos, fechamentos e rateio.  
+    - Importa planilhas antigas e padroniza automaticamente os dados (datas, categorias e valores em R$).  
+    - Calcula ticket médio, resultados e KPIs em tempo real.  
+    - Utiliza controle seguro por linha (_row_) para rastreabilidade e edição precisa.  
+    - Padroniza formatos no padrão brasileiro (dd/mm/aaaa e R$).  
+    - Possui **10 regras de negócio implementadas**, incluindo validação automática, fechamento mensal e rateio por centro de custo.  
+    - Reduz a taxa de erros para **0%** e o tempo de fechamento de **mais de 2 horas para segundos**.  
+    - Interface responsiva com acesso web e mobile para todos os integrantes.  
+    """,
+    "tags": ["Streamlit", "Google Sheets", "Financeiro de Banda", "Automação", "KPIs", "Dashboards"]
+    },
+    {
         "title": "RockBuzz – Calculadora de Cachê & Gerador de Contratos",
         "summary": "Sistema que substitui planilhas manuais por uma plataforma automatizada, reduzindo drasticamente o tempo de envio de propostas e aumentando a taxa de fechamento de contratos. Todos os integrantes podem acessar mobile e gerenciar orçamentos, contratos e históricos de forma rápida e eficiente.",
         "metrics": {
@@ -1184,6 +1199,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
