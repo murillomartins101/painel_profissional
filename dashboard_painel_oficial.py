@@ -437,7 +437,7 @@ SKILLS_TOOLS = {
 }
 
 LANGUAGES = {
-    "Alemão": 30
+    "Alemão": 30,
     "Espanhol": 70,
     "Inglês": 95,
     "Português": 100      
@@ -1199,6 +1199,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
