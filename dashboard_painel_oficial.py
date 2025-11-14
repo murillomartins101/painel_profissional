@@ -379,9 +379,7 @@ PROJECTS = [
     - Importa planilhas antigas e padroniza automaticamente os dados (datas, categorias e valores em R$).  
     - Calcula ticket médio, resultados e KPIs em tempo real.  
     - Utiliza controle seguro por linha (_row_) para rastreabilidade e edição precisa.  
-    - Padroniza formatos no padrão brasileiro (dd/mm/aaaa e R$).  
-    - Possui **10 regras de negócio implementadas**, incluindo validação automática, fechamento mensal e rateio por centro de custo.  
-    - Reduz a taxa de erros para **0%** e o tempo de fechamento de **mais de 2 horas para segundos**.  
+    - Possui +10 regras de negócio implementadas, incluindo validação automática, fechamento mensal e rateio por centro de custo.    
     - Interface responsiva com acesso web e mobile para todos os integrantes.  
     """,
     "tags": ["Streamlit", "Google Sheets", "Financeiro de Banda", "Automação", "KPIs", "Dashboards"]
@@ -1199,6 +1197,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
