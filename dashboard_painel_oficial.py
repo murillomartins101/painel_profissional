@@ -1001,7 +1001,7 @@ with tab3:
     with col2:
         st.metric("Power BI", "85%", "+65% desde 2022")
     with col3:
-        st.metric("Machine Learning", "70%", "Crescimento acelerado")
+        st.metric("Machine Learning", "50%", "Crescimento acelerado")
     
     col1, col2 = st.columns(2)
     
@@ -1199,6 +1199,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
