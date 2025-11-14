@@ -418,29 +418,29 @@ EDUCATION = [
 SKILLS_CORE = {
     "Business Strategy & Growth": 94,
     "Data Storytelling & Comunicação": 92,
-    "Python (Pandas, Scikit-learn, Plotly)": 87,
-    "Power BI & Data Visualization": 85,
-    "Estatística Aplicada": 70,
-    "Machine Learning": 75,
-    "SQL & Databricks": 70,
+    "Python (Pandas, Scikit-learn, Plotly)": 57,
+    "Power BI & Data Visualization": 60,
+    "Estatística Aplicada": 45,
+    "Machine Learning": 40,
+    "SQL & Databricks": 50,
     "Project Management (Agile & Cross-functional)": 80,
     "Marketing Analytics": 88
 }
 
 SKILLS_TOOLS = {
-    "Python": 85,
-    "SQL": 75,
-    "Power BI": 75,
-    "Streamlit": 70,
-    "AWS": 70,
-    "Databricks": 65
+    "Python": 55,
+    "SQL": 50,
+    "Power BI": 60,
+    "Streamlit": 55,
+    "AWS": 45,
+    "Databricks": 40
 }
 
 LANGUAGES = {
-    "Português": 100,
-    "Inglês": 95,
-    "Espanhol": 70,
     "Alemão": 30
+    "Espanhol": 70,
+    "Inglês": 95,
+    "Português": 100      
 }
 
 # --- FUNÇÕES AUXILIARES
@@ -1199,6 +1199,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
