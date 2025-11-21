@@ -385,7 +385,7 @@ PROJECTS = [
     "tags": ["Streamlit", "Google Sheets", "Financeiro de Banda", "Automação", "KPIs", "Dashboards"]
     },
     {
-        "title": "RockBuzz – Calculadora de Cachê & Gerador de Contratos",
+        "title": "RockBuzz – GigFlow",
         "summary": "Sistema que substitui planilhas manuais por uma plataforma automatizada, reduzindo drasticamente o tempo de envio de propostas e aumentando a taxa de fechamento de contratos. Todos os integrantes podem acessar mobile e gerenciar orçamentos, contratos e históricos de forma rápida e eficiente.",
         "metrics": {
         "Taxa de Aceite": "100% (antes 20%)",
@@ -1197,6 +1197,7 @@ st.markdown(f"""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
