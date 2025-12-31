@@ -12,7 +12,7 @@ def is_mobile():
         user_agent = st.context.headers.get("User-Agent", "").lower()
         mobile_keywords = ["android", "iphone", "ipad", "mobile"]
         return any(keyword in user_agent for keyword in mobile_keywords)
-    except:
+    except Exception:
         return False
 
 IS_MOBILE = is_mobile()
@@ -413,25 +413,39 @@ EDUCATION = [
     {"title": "B.Tech em Marketing", "org": "UniAnchieta", "year": "2010"}
 ]
 
+# --- DADOS UNIFICADOS DE HABILIDADES (fonte única de verdade)
+SKILLS_DATA = {
+    "Python": {"current": 87, "history": {2019: 40, 2021: 55, 2023: 70, 2024: 80, 2025: 87}},
+    "Power BI": {"current": 85, "history": {2019: 20, 2021: 35, 2023: 60, 2024: 75, 2025: 85}},
+    "SQL": {"current": 70, "history": {2019: 30, 2021: 40, 2023: 55, 2024: 65, 2025: 70}},
+    "Machine Learning": {"current": 65, "history": {2019: 15, 2021: 25, 2023: 40, 2024: 55, 2025: 65}},
+    "Data Storytelling": {"current": 92, "history": {2019: 75, 2021: 80, 2023: 85, 2024: 90, 2025: 92}},
+    "Streamlit": {"current": 70, "history": {2019: 0, 2021: 20, 2023: 45, 2024: 60, 2025: 70}},
+    "AWS": {"current": 50, "history": {2019: 10, 2021: 20, 2023: 35, 2024: 45, 2025: 50}},
+    "Databricks": {"current": 55, "history": {2019: 0, 2021: 15, 2023: 35, 2024: 50, 2025: 55}},
+}
+
+# Competências derivadas de SKILLS_DATA
 SKILLS_CORE = {
     "Business Strategy & Growth": 94,
-    "Data Storytelling & Comunicação": 92,
-    "Python (Pandas, Scikit-learn, Plotly)": 57,
-    "Power BI & Data Visualization": 60,
-    "Estatística Aplicada": 45,
-    "Machine Learning": 40,
-    "SQL & Databricks": 50,
+    "Data Storytelling & Comunicação": SKILLS_DATA["Data Storytelling"]["current"],
+    "Python (Pandas, Scikit-learn, Plotly)": SKILLS_DATA["Python"]["current"],
+    "Power BI & Data Visualization": SKILLS_DATA["Power BI"]["current"],
+    "Estatística Aplicada": 60,
+    "Machine Learning": SKILLS_DATA["Machine Learning"]["current"],
+    "SQL & Databricks": SKILLS_DATA["SQL"]["current"],
     "Project Management (Agile & Cross-functional)": 80,
     "Marketing Analytics": 88
 }
 
+# Ferramentas derivadas de SKILLS_DATA
 SKILLS_TOOLS = {
-    "Python": 55,
-    "SQL": 50,
-    "Power BI": 60,
-    "Streamlit": 55,
-    "AWS": 45,
-    "Databricks": 40
+    "Python": SKILLS_DATA["Python"]["current"],
+    "SQL": SKILLS_DATA["SQL"]["current"],
+    "Power BI": SKILLS_DATA["Power BI"]["current"],
+    "Streamlit": SKILLS_DATA["Streamlit"]["current"],
+    "AWS": SKILLS_DATA["AWS"]["current"],
+    "Databricks": SKILLS_DATA["Databricks"]["current"]
 }
 
 LANGUAGES = {
@@ -514,7 +528,7 @@ def build_experience_df(experiences):
 def create_timeline_chart(df: pd.DataFrame):
     """Cria gráfico de timeline profissional"""
     role_colors = {
-        "Cientista/Analista de Dados": PRIMARY,
+        "Analista de Dados": PRIMARY,
         "Analista de Operações Internacionais": SECONDARY,
         "Consultor Comercial": ACCENT,
         "Founder | Head of Everything": "#8c564b",
@@ -666,6 +680,38 @@ def dark_kpi(label: str, value: str, trend=None, highlight=False):
         {trend_html}
     </div>
     ''', unsafe_allow_html=True)
+
+def calculate_total_experience_years(experiences):
+    """Calcula o total de anos de experiência profissional"""
+    today = datetime.today()
+    earliest_start = None
+    
+    for exp in experiences:
+        start = ym_to_date(exp["start"])
+        if earliest_start is None or start < earliest_start:
+            earliest_start = start
+    
+    if earliest_start:
+        total_duration = relativedelta(today, earliest_start)
+        return total_duration.years + (1 if total_duration.months >= 6 else 0)
+    return 0
+
+def count_unique_companies(experiences):
+    """Conta o número de empresas únicas"""
+    return len(set(exp["company"] for exp in experiences))
+
+def count_data_projects(projects):
+    """Conta projetos relacionados a dados"""
+    data_tags = ["Python", "SQL", "Machine Learning", "Data", "Analytics", "EDA", "XGBoost", "Scikit-learn"]
+    count = 0
+    for project in projects:
+        if any(tag in project.get("tags", []) for tag in data_tags):
+            count += 1
+    return count
+
+def count_certifications(education):
+    """Conta certificações (itens com 'Certificate' no título)"""
+    return sum(1 for edu in education if "Certificate" in edu.get("title", ""))
 
 # --- SIDEBAR
 with st.sidebar:
@@ -834,25 +880,31 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# KPIs
+# KPIs - Calculados dinamicamente
+total_experience_years = calculate_total_experience_years(EXPERIENCES)
+num_companies = count_unique_companies(EXPERIENCES)
+num_data_projects = count_data_projects(PROJECTS)
+num_certifications = count_certifications(EDUCATION)
+num_languages = len(LANGUAGES)
+
 st.markdown("<div class='story-grid'>", unsafe_allow_html=True)
 
 if IS_MOBILE:
     col1, col2 = st.columns(2)
     with col1:
-        dark_kpi("Experiência", "15+ anos", trend=5, highlight=True)
+        dark_kpi("Experiência", f"{total_experience_years}+ anos", highlight=True)
     with col2:
-        dark_kpi("Projetos Data", f"{len(PROJECTS)}+")
+        dark_kpi("Projetos Data", f"{num_data_projects}+")
 else:
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        dark_kpi("Experiência", "15+ anos", trend=5, highlight=True)
+        dark_kpi("Experiência", f"{total_experience_years}+ anos", highlight=True)
     with col2:
-        dark_kpi("Projetos Data", f"{len(PROJECTS)}+")
+        dark_kpi("Projetos Data", f"{num_data_projects}+")
     with col3:
-        dark_kpi("Certificações", "6", trend=25)
+        dark_kpi("Certificações", f"{num_certifications}", trend=num_certifications)
     with col4:
-        dark_kpi("Idiomas", "4")
+        dark_kpi("Idiomas", f"{num_languages}")
 
 st.markdown("</div>", unsafe_allow_html=True)
 
@@ -992,14 +1044,19 @@ with tab2:
 with tab3:
     st.markdown("### Competências Técnicas")
     
+    # Calcula deltas dinamicamente a partir de SKILLS_DATA
+    python_delta = SKILLS_DATA["Python"]["current"] - SKILLS_DATA["Python"]["history"][2019]
+    powerbi_delta = SKILLS_DATA["Power BI"]["current"] - SKILLS_DATA["Power BI"]["history"][2019]
+    ml_delta = SKILLS_DATA["Machine Learning"]["current"] - SKILLS_DATA["Machine Learning"]["history"][2019]
+    
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.metric("Python", "87%", "+47% desde 2019")
+        st.metric("Python", f"{SKILLS_DATA['Python']['current']}%", f"+{python_delta}% desde 2019")
     with col2:
-        st.metric("Power BI", "85%", "+65% desde 2022")
+        st.metric("Power BI", f"{SKILLS_DATA['Power BI']['current']}%", f"+{powerbi_delta}% desde 2019")
     with col3:
-        st.metric("Machine Learning", "50%", "Crescimento acelerado")
+        st.metric("Machine Learning", f"{SKILLS_DATA['Machine Learning']['current']}%", f"+{ml_delta}% desde 2019")
     
     col1, col2 = st.columns(2)
     
@@ -1013,21 +1070,31 @@ with tab3:
     
     st.markdown("#### Evolução das Habilidades")
     
-    evolution_data = {
-        "Habilidade": ["Python", "Power BI", "SQL", "Machine Learning", "Storytelling"],
-        "2019": [40, 20, 15, 20, 75],
-        "2024": [87, 85, 60, 70, 90]
-    }
-    df_evo = pd.DataFrame(evolution_data)
-    df_melted = df_evo.melt(id_vars=["Habilidade"], var_name="Ano", value_name="Nível")
+    # Gera dados de evolução dinamicamente a partir de SKILLS_DATA
+    evolution_skills = ["Python", "Power BI", "SQL", "Machine Learning", "Data Storytelling"]
+    years = [2019, 2021, 2023, 2024, 2025]
+    
+    evolution_rows = []
+    for skill in evolution_skills:
+        skill_key = skill if skill in SKILLS_DATA else skill
+        if skill_key in SKILLS_DATA:
+            for year in years:
+                if year in SKILLS_DATA[skill_key]["history"]:
+                    evolution_rows.append({
+                        "Habilidade": skill,
+                        "Ano": str(year),
+                        "Nível": SKILLS_DATA[skill_key]["history"][year]
+                    })
+    
+    df_evo = pd.DataFrame(evolution_rows)
     
     fig_evo = px.line(
-        df_melted,
+        df_evo,
         x="Ano",
         y="Nível",
         color="Habilidade",
         markers=True,
-        title="Crescimento das Principais Habilidades (2019-2024)"
+        title="Crescimento das Principais Habilidades (2019-2025)"
     )
     apply_dark_theme(fig_evo)
     fig_evo.update_layout(height=400)
